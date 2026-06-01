@@ -1,5 +1,5 @@
 ### Youtube Reference
-#### Three.js in FlowFuse Node-RED Dashboard - Part 1: Basic 3D Objects and Scene Setup
+#### Three.js in FlowFuse Node-RED Dashboard - Part 2: Interactive Objects and Dynamic Updates
 <p align="center">
   <a href="https://www.youtube.com/watch?v=xf8A43w7DIs" target="_blank">
     <img src="https://img.youtube.com/vi/xf8A43w7DIs/0.jpg" alt="YouTube Video Thumbnail" width="480" />
