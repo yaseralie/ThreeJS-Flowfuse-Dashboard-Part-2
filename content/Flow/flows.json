@@ -1,0 +1,421 @@
+[
+    {
+        "id": "5ba26a24c710b79c",
+        "type": "tab",
+        "label": "Simple",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ff9f72fe9c88324a",
+        "type": "group",
+        "z": "5ba26a24c710b79c",
+        "name": "Box",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "c0bf63a835cc5f8b"
+        ],
+        "x": 54,
+        "y": 79,
+        "w": 192,
+        "h": 82
+    },
+    {
+        "id": "5f0ee95ae0e66365",
+        "type": "group",
+        "z": "5ba26a24c710b79c",
+        "name": "Cylinder",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "bb0b05667d340236"
+        ],
+        "x": 54,
+        "y": 179,
+        "w": 172,
+        "h": 82
+    },
+    {
+        "id": "5d69585322baecbf",
+        "type": "group",
+        "z": "5ba26a24c710b79c",
+        "name": "3D Orbit",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "dd9a6e97ead53f53",
+            "9ffe2cc7cf5f79fc"
+        ],
+        "x": 54,
+        "y": 279,
+        "w": 252,
+        "h": 122
+    },
+    {
+        "id": "7b6ca43c5e337251",
+        "type": "group",
+        "z": "5ba26a24c710b79c",
+        "name": "Group",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "44b9e4dc75727283",
+            "01e005ba732e5234"
+        ],
+        "x": 54,
+        "y": 419,
+        "w": 212,
+        "h": 122
+    },
+    {
+        "id": "3530e75f99280655",
+        "type": "group",
+        "z": "5ba26a24c710b79c",
+        "name": "Edge",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "b4bf4a8c9931d413"
+        ],
+        "x": 54,
+        "y": 559,
+        "w": 192,
+        "h": 82
+    },
+    {
+        "id": "c0bf63a835cc5f8b",
+        "type": "ui-template",
+        "z": "5ba26a24c710b79c",
+        "g": "ff9f72fe9c88324a",
+        "group": "98519b31df50dddd",
+        "page": "",
+        "ui": "",
+        "name": "Rotating Box",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div ref=\"container\" style=\"\n            width:100%;\n            height:100%;\n            min-height:400px;\n        \"></div>\n</template>\n\n<script>\n    export default {\n    async mounted() {\n\n        const THREE = await import(\n            'https://unpkg.com/three@0.179.1/build/three.module.js'\n        )\n\n        const container = this.$refs.container\n\n        // Scene\n        const scene = new THREE.Scene()\n        scene.background = new THREE.Color(0xf5f5f5)\n\n        // Camera\n        const camera = new THREE.PerspectiveCamera(\n            75,\n            1,\n            0.1,\n            1000\n        )\n\n        camera.position.set(2, 2, 5)\n        camera.lookAt(0, 0, 0)\n\n        // Renderer\n        const renderer = new THREE.WebGLRenderer({\n            antialias: true\n        })\n\n        renderer.setPixelRatio(\n            window.devicePixelRatio\n        )\n\n        container.appendChild(\n            renderer.domElement\n        )\n\n        // Resize function\n        const resize = () => {\n            const width =\n                container.clientWidth\n            const height =\n                container.clientHeight\n\n            if (!width || !height) return\n\n            camera.aspect =\n                width / height\n\n            camera.updateProjectionMatrix()\n\n            renderer.setSize(\n                width,\n                height\n            )\n        }\n\n        resize()\n\n        // Auto resize\n        this.resizeObserver =\n            new ResizeObserver(() => {\n                resize()\n            })\n\n        this.resizeObserver.observe(\n            container\n        )\n\n        // Light\n        const ambient =\n            new THREE.AmbientLight(\n                0xffffff,\n                1\n            )\n\n        scene.add(ambient)\n\n        const directional =\n            new THREE.DirectionalLight(\n                0xffffff,\n                2\n            )\n\n        directional.position.set(\n            5,\n            5,\n            5\n        )\n\n        scene.add(directional)\n\n        // Grid\n        const grid =\n            new THREE.GridHelper(\n                10,\n                10\n            )\n\n        scene.add(grid)\n\n        // Cube width (X), height (Y), depth (Z)\n        const geometry =\n            new THREE.BoxGeometry(\n                2,\n                2,\n                2\n            )\n\n        const material =\n            new THREE.MeshStandardMaterial({\n                color: 0x00ff00\n            })\n\n        const cube =\n            new THREE.Mesh(\n                geometry,\n                material\n            )\n\n        cube.position.y = 0.5\n\n        scene.add(cube)\n\n        // Animation\n        const animate = () => {\n\n            this.animationId =\n                requestAnimationFrame(\n                    animate\n                )\n\n            cube.rotation.x += 0.01\n            cube.rotation.y += 0.01\n\n            renderer.render(\n                scene,\n                camera\n            )\n        }\n\n        animate()\n\n        // Save references\n        this.renderer = renderer\n        this.scene = scene\n        this.camera = camera\n    }\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 150,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4adbd09f5bccf316",
+        "type": "comment",
+        "z": "5ba26a24c710b79c",
+        "name": "Basic",
+        "info": "**To simplify, a 3D object always consists of:**\nGeometry    = Shape\nMaterial    = Color/Appearance\nMesh        = Geometry + Material\nScene       = Place to place the Mesh\n\n**Sistem koordinat Three.js**\n0,0,0 in center\n          Y+\n          ↑\n          |\n          |\n          |\n          O----------→ X+\n         /\n        /\n       /\n     Z+\n           Y+\n            ↑\n            |\n            |\n            |\nX- <--------O--------> X+\n            |\n            |\n            |\n            ↓\n           Y-",
+        "x": 110,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "bb0b05667d340236",
+        "type": "ui-template",
+        "z": "5ba26a24c710b79c",
+        "g": "5f0ee95ae0e66365",
+        "group": "cdfc73d83052bca7",
+        "page": "",
+        "ui": "",
+        "name": "Cylinder",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div ref=\"container\" style=\"\n            width:100%;\n            height:100%;\n            min-height:400px;\n        \"></div>\n</template>\n\n<script>\n    export default {\n    async mounted() {\n\n        const THREE = await import(\n            'https://unpkg.com/three@0.179.1/build/three.module.js'\n        )\n\n        const container = this.$refs.container\n\n        // Scene\n        const scene = new THREE.Scene()\n        scene.background = new THREE.Color(0xf5f5f5)\n\n        // Camera\n        const camera = new THREE.PerspectiveCamera(\n            75,\n            1,\n            0.1,\n            1000\n        )\n\n        camera.position.set(2, 2, 5)\n        camera.lookAt(0, 0, 0)\n\n        // Renderer\n        const renderer = new THREE.WebGLRenderer({\n            antialias: true\n        })\n\n        renderer.setPixelRatio(\n            window.devicePixelRatio\n        )\n\n        container.appendChild(\n            renderer.domElement\n        )\n\n        // Resize function\n        const resize = () => {\n            const width =\n                container.clientWidth\n            const height =\n                container.clientHeight\n\n            if (!width || !height) return\n\n            camera.aspect =\n                width / height\n\n            camera.updateProjectionMatrix()\n\n            renderer.setSize(\n                width,\n                height\n            )\n        }\n\n        resize()\n\n        // Auto resize\n        this.resizeObserver =\n            new ResizeObserver(() => {\n                resize()\n            })\n\n        this.resizeObserver.observe(\n            container\n        )\n\n        // Light\n        const ambient =\n            new THREE.AmbientLight(\n                0xffffff,\n                1\n            )\n\n        scene.add(ambient)\n\n        const directional =\n            new THREE.DirectionalLight(\n                0xffffff,\n                2\n            )\n\n        directional.position.set(\n            5,\n            5,\n            5\n        )\n\n        scene.add(directional)\n\n        // Grid\n        const grid =\n            new THREE.GridHelper(\n                10,\n                10\n            )\n\n        scene.add(grid)\n\n        // Cylinder: 0.5 = top radius, 0.5 = bottom radius, 2 = height, 32 = number of sides\n        const geometry =\n            new THREE.CylinderGeometry(\n                0.5,\n                0.5,\n                2,\n                32\n            )\n\n        const material =\n            new THREE.MeshStandardMaterial({\n                color: 0x0300ff\n            })\n\n        const cylinder =\n            new THREE.Mesh(\n                geometry,\n                material\n            )\n\n        cylinder.position.y = 0.5\n\n        scene.add(cylinder)\n\n        // Animation\n        const animate = () => {\n\n            this.animationId =\n                requestAnimationFrame(\n                    animate\n                )\n\n            cylinder.rotation.x += 0.01\n            cylinder.rotation.y += 0.01\n\n            renderer.render(\n                scene,\n                camera\n            )\n        }\n\n        animate()\n\n        // Save references\n        this.renderer = renderer\n        this.scene = scene\n        this.camera = camera\n    }\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 140,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dd9a6e97ead53f53",
+        "type": "ui-template",
+        "z": "5ba26a24c710b79c",
+        "g": "5d69585322baecbf",
+        "group": "3b87d10a89b4f78d",
+        "page": "",
+        "ui": "",
+        "name": "Cube Orbit",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div ref=\"container\" style=\"\n            width:100%;\n            height:100%;\n            min-height:400px;\n        \"></div>\n</template>\n\n<script>\nexport default {\n\n    async mounted() {\n\n        const THREE = await import(\n            'https://esm.sh/three@0.179.1'\n        )\n\n        const { OrbitControls } =\n            await import(\n                'https://esm.sh/three@0.179.1/examples/jsm/controls/OrbitControls'\n            )\n\n        const container =\n            this.$refs.container\n\n        const scene =\n            new THREE.Scene()\n\n        scene.background =\n            new THREE.Color(\n                0xf5f5f5\n            )\n\n        const camera =\n            new THREE.PerspectiveCamera(\n                75,\n                container.clientWidth /\n                container.clientHeight,\n                0.1,\n                1000\n            )\n\n        camera.position.set(\n            5,\n            5,\n            5\n        )\n\n        const renderer =\n            new THREE.WebGLRenderer({\n                antialias:true\n            })\n\n        renderer.setSize(\n            container.clientWidth,\n            container.clientHeight\n        )\n\n        container.appendChild(\n            renderer.domElement\n        )\n\n        // Orbit Controls\n        const controls =\n            new OrbitControls(\n                camera,\n                renderer.domElement\n            )\n\n        controls.enableDamping = true\n\n        // Light\n        scene.add(\n            new THREE.AmbientLight(\n                0xffffff,\n                1\n            )\n        )\n\n        const light =\n            new THREE.DirectionalLight(\n                0xffffff,\n                2\n            )\n\n        light.position.set(\n            5,\n            5,\n            5\n        )\n\n        scene.add(light)\n\n        // Grid\n        scene.add(\n            new THREE.GridHelper(\n                10,\n                10\n            )\n        )\n\n        // Axis\n        scene.add(\n            new THREE.AxesHelper(\n                5\n            )\n        )\n\n        // Cube\n        const cube =\n            new THREE.Mesh(\n\n                new THREE.BoxGeometry(\n                    1,\n                    1,\n                    1\n                ),\n\n                new THREE.MeshStandardMaterial({\n                    color:0x00ff00\n                })\n\n            )\n\n        cube.position.y = 0.5\n\n        scene.add(cube)\n\n        const animate = () => {\n\n            requestAnimationFrame(\n                animate\n            )\n\n            controls.update()\n\n            renderer.render(\n                scene,\n                camera\n            )\n\n        }\n\n        animate()\n\n    }\n\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 150,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9ffe2cc7cf5f79fc",
+        "type": "ui-template",
+        "z": "5ba26a24c710b79c",
+        "g": "5d69585322baecbf",
+        "group": "3b87d10a89b4f78d",
+        "page": "",
+        "ui": "",
+        "name": "Rotating Cube Orbit",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div\n        ref=\"container\"\n        style=\"\n            width:100%;\n            height:100%;\n            min-height:400px;\n        \"\n    ></div>\n</template>\n\n<script>\nexport default {\n    async mounted() {\n        const THREE = await import(\n            'https://esm.sh/three@0.179.1'\n        )\n\n        const { OrbitControls } =\n            await import(\n                'https://esm.sh/three@0.179.1/examples/jsm/controls/OrbitControls'\n            )\n\n        const container =\n            this.$refs.container\n\n        // Scene\n        const scene =\n            new THREE.Scene()\n\n        scene.background =\n            new THREE.Color(0xf5f5f5)\n\n        // Camera\n        const camera =\n            new THREE.PerspectiveCamera(\n                75,\n                1,\n                0.1,\n                1000\n            )\n\n        camera.position.set(\n            5,\n            5,\n            8\n        )\n\n        // Renderer\n        const renderer =\n            new THREE.WebGLRenderer({\n                antialias: true\n            })\n\n        renderer.setPixelRatio(\n            window.devicePixelRatio\n        )\n\n        container.appendChild(\n            renderer.domElement\n        )\n\n        // Resize\n        const resize = () => {\n            const width =\n                container.clientWidth\n\n            const height =\n                container.clientHeight\n\n            if (!width || !height) return\n\n            camera.aspect =\n                width / height\n\n            camera.updateProjectionMatrix()\n            renderer.setSize(\n                width,\n                height\n            )\n        }\n\n        resize()\n\n        new ResizeObserver(\n            resize\n        ).observe(container)\n\n        // Orbit Controls\n        const controls =\n            new OrbitControls(\n                camera,\n                renderer.domElement\n            )\n\n        controls.enableDamping = true\n        controls.dampingFactor = 0.05\n\n        controls.enableZoom = true\n        controls.enablePan = true\n        controls.enableRotate = true\n\n        controls.minDistance = 3\n        controls.maxDistance = 50\n\n        // Light\n        const ambient =\n            new THREE.AmbientLight(\n                0xffffff,\n                1\n            )\n\n        scene.add(ambient)\n\n        const directional =\n            new THREE.DirectionalLight(\n                0xffffff,\n                2\n            )\n\n        directional.position.set(\n            5,\n            5,\n            5\n        )\n\n        scene.add(directional)\n\n        // Grid\n        const grid =\n            new THREE.GridHelper(\n                20,\n                20\n            )\n\n        scene.add(grid)\n\n        // Axis Helper\n        const axes =\n            new THREE.AxesHelper(\n                5\n            )\n\n        scene.add(axes)\n\n        // Cube\n        const geometry =\n            new THREE.BoxGeometry(\n                2,\n                2,\n                2\n            )\n\n        const material =\n            new THREE.MeshStandardMaterial({\n                color: 0x00ff00\n            })\n\n        const cube =\n            new THREE.Mesh(\n                geometry,\n                material\n            )\n\n        cube.position.y = 1.5\n\n        scene.add(cube)\n\n        // Animation Loop\n        const animate = () => {\n\n            requestAnimationFrame(\n                animate\n            )\n\n            // Cube animation\n            cube.rotation.x += 0.01\n            cube.rotation.y += 0.01\n\n            // Orbit animation\n            controls.update()\n\n            renderer.render(\n                scene,\n                camera\n            )\n\n        }\n\n        animate()\n\n    }\n\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 180,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44b9e4dc75727283",
+        "type": "ui-template",
+        "z": "5ba26a24c710b79c",
+        "g": "7b6ca43c5e337251",
+        "group": "fbfca8b8cdd5eb60",
+        "page": "",
+        "ui": "",
+        "name": "Group",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div\n        ref=\"container\"\n        style=\"\n            width:100%;\n            height:100%;\n            min-height:400px;\n        \"\n    ></div>\n</template>\n\n<script>\nexport default {\n\n    async mounted() {\n\n        const THREE = await import(\n            'https://esm.sh/three@0.179.1'\n        )\n\n        const { OrbitControls } =\n            await import(\n                'https://esm.sh/three@0.179.1/examples/jsm/controls/OrbitControls'\n            )\n\n        const container =\n            this.$refs.container\n\n        const scene =\n            new THREE.Scene()\n\n        scene.background =\n            new THREE.Color(\n                0xf5f5f5\n            )\n\n        const camera =\n            new THREE.PerspectiveCamera(\n                75,\n                container.clientWidth /\n                container.clientHeight,\n                0.1,\n                1000\n            )\n\n        camera.position.set(\n            5,\n            5,\n            5\n        )\n\n        const renderer =\n            new THREE.WebGLRenderer({\n                antialias:true\n            })\n\n        renderer.setSize(\n            container.clientWidth,\n            container.clientHeight\n        )\n\n        container.appendChild(\n            renderer.domElement\n        )\n\n        // Orbit Controls\n        const controls =\n            new OrbitControls(\n                camera,\n                renderer.domElement\n            )\n\n        controls.enableDamping = true\n\n        // Light\n        scene.add(\n            new THREE.AmbientLight(\n                0xffffff,\n                1\n            )\n        )\n\n        const light =\n            new THREE.DirectionalLight(\n                0xffffff,\n                2\n            )\n\n        light.position.set(\n            5,\n            5,\n            5\n        )\n\n        scene.add(light)\n\n        // Grid\n        scene.add(\n            new THREE.GridHelper(\n                10,\n                10\n            )\n        )\n\n        // Axis\n        scene.add(\n            new THREE.AxesHelper(\n                5\n            )\n        )\n\n        // Cube with short command: geometry, material\n        const cube =\n            new THREE.Mesh(\n                new THREE.BoxGeometry(\n                    2,\n                    2,\n                    2\n                ),\n                new THREE.MeshStandardMaterial({\n                    color:0x00ff00\n                })\n\n            )\n        \n        // Set position only, not add into scene\n        cube.position.y = 0.5\n\n        // Cylinder: 0.5 = top radius, 0.5 = bottom radius, 2 = height, 32 = number of sides\n        const geometry =\n        new THREE.CylinderGeometry(\n            0.5,\n            0.5,\n            4,\n            32\n        )\n        \n        const material =\n        new THREE.MeshStandardMaterial({\n            color: 0x0300ff\n        })\n        \n        const cylinder =\n        new THREE.Mesh(\n            geometry,\n            material\n        )\n        \n        cylinder.position.y = 0.5\n\n        const groupUnit = new THREE.Group()\n        groupUnit.add(cube)\n        groupUnit.add(cylinder)\n\n        scene.add(groupUnit)\n        \n        const animate = () => {\n\n            requestAnimationFrame(\n                animate\n            )\n\n            controls.update()\n\n            renderer.render(\n                scene,\n                camera\n            )\n\n        }\n\n        animate()\n\n    }\n\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 130,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "01e005ba732e5234",
+        "type": "ui-template",
+        "z": "5ba26a24c710b79c",
+        "g": "7b6ca43c5e337251",
+        "group": "fbfca8b8cdd5eb60",
+        "page": "",
+        "ui": "",
+        "name": "Group Rotate",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div\n        ref=\"container\"\n        style=\"\n            width:100%;\n            height:100%;\n            min-height:400px;\n        \"\n    ></div>\n</template>\n\n<script>\nexport default {\n\n    async mounted() {\n\n        const THREE = await import(\n            'https://esm.sh/three@0.179.1'\n        )\n\n        const { OrbitControls } =\n            await import(\n                'https://esm.sh/three@0.179.1/examples/jsm/controls/OrbitControls'\n            )\n\n        const container =\n            this.$refs.container\n\n        const scene =\n            new THREE.Scene()\n\n        scene.background =\n            new THREE.Color(\n                0xf5f5f5\n            )\n\n        const camera =\n            new THREE.PerspectiveCamera(\n                75,\n                container.clientWidth /\n                container.clientHeight,\n                0.1,\n                1000\n            )\n\n        camera.position.set(\n            5,\n            5,\n            5\n        )\n\n        const renderer =\n            new THREE.WebGLRenderer({\n                antialias:true\n            })\n\n        renderer.setSize(\n            container.clientWidth,\n            container.clientHeight\n        )\n\n        container.appendChild(\n            renderer.domElement\n        )\n\n        // Orbit Controls\n        const controls =\n            new OrbitControls(\n                camera,\n                renderer.domElement\n            )\n\n        controls.enableDamping = true\n\n        // Light\n        scene.add(\n            new THREE.AmbientLight(\n                0xffffff,\n                1\n            )\n        )\n\n        const light =\n            new THREE.DirectionalLight(\n                0xffffff,\n                2\n            )\n\n        light.position.set(\n            5,\n            5,\n            5\n        )\n\n        scene.add(light)\n\n        // Grid\n        scene.add(\n            new THREE.GridHelper(\n                10,\n                10\n            )\n        )\n\n        // Axis\n        scene.add(\n            new THREE.AxesHelper(\n                5\n            )\n        )\n\n        // Cube with short command: geometry, material\n        const cube =\n            new THREE.Mesh(\n                new THREE.BoxGeometry(\n                    2,\n                    2,\n                    2\n                ),\n                new THREE.MeshStandardMaterial({\n                    color:0x00ff00\n                })\n\n            )\n        \n        // Set position only, not add into scene\n        cube.position.y = 0.5\n\n        // Cylinder: 0.5 = top radius, 0.5 = bottom radius, 2 = height, 32 = number of sides\n        const geometry =\n        new THREE.CylinderGeometry(\n            0.5,\n            0.5,\n            4,\n            32\n        )\n        \n        const material =\n        new THREE.MeshStandardMaterial({\n            color: 0x0300ff\n        })\n        \n        const cylinder =\n        new THREE.Mesh(\n            geometry,\n            material\n        )\n        \n        cylinder.position.y = 0.5\n\n        const groupUnit = new THREE.Group()\n        groupUnit.add(cube)\n        groupUnit.add(cylinder)\n\n        scene.add(groupUnit)\n        \n        const animate = () => {\n\n            requestAnimationFrame(\n                animate\n            )\n\n            // Group animation\n            groupUnit.rotation.x += 0.01\n            groupUnit.rotation.y += 0.01\n\n            controls.update()\n\n            renderer.render(\n                scene,\n                camera\n            )\n\n        }\n\n        animate()\n\n    }\n\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 160,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b4bf4a8c9931d413",
+        "type": "ui-template",
+        "z": "5ba26a24c710b79c",
+        "g": "3530e75f99280655",
+        "group": "cfbf7707e0031465",
+        "page": "",
+        "ui": "",
+        "name": "Group Edge",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div\n        ref=\"container\"\n        style=\"\n            width:100%;\n            height:100%;\n            min-height:400px;\n        \"\n    ></div>\n</template>\n\n<script>\nexport default {\n\n    async mounted() {\n\n        const THREE = await import(\n            'https://esm.sh/three@0.179.1'\n        )\n\n        const { OrbitControls } =\n            await import(\n                'https://esm.sh/three@0.179.1/examples/jsm/controls/OrbitControls'\n            )\n\n        const container =\n            this.$refs.container\n\n        const scene =\n            new THREE.Scene()\n\n        scene.background =\n            new THREE.Color(\n                0xf5f5f5\n            )\n\n        const camera =\n            new THREE.PerspectiveCamera(\n                75,\n                container.clientWidth /\n                container.clientHeight,\n                0.1,\n                1000\n            )\n\n        camera.position.set(\n            5,\n            5,\n            5\n        )\n\n        const renderer =\n            new THREE.WebGLRenderer({\n                antialias:true\n            })\n\n        renderer.setSize(\n            container.clientWidth,\n            container.clientHeight\n        )\n\n        container.appendChild(\n            renderer.domElement\n        )\n\n        // Orbit Controls\n        const controls =\n            new OrbitControls(\n                camera,\n                renderer.domElement\n            )\n\n        controls.enableDamping = true\n\n        // Light\n        scene.add(\n            new THREE.AmbientLight(\n                0xffffff,\n                1\n            )\n        )\n\n        const light =\n            new THREE.DirectionalLight(\n                0xffffff,\n                2\n            )\n\n        light.position.set(\n            5,\n            5,\n            5\n        )\n\n        scene.add(light)\n\n        // Grid\n        scene.add(\n            new THREE.GridHelper(\n                10,\n                10\n            )\n        )\n\n        // Axis\n        scene.add(\n            new THREE.AxesHelper(\n                5\n            )\n        )\n\n        // Cube with short command: geometry, material\n        const cube =\n            new THREE.Mesh(\n                new THREE.BoxGeometry(\n                    2,\n                    2,\n                    2\n                ),\n                new THREE.MeshStandardMaterial({\n                    color:0x00ff00\n                })\n\n            )\n\n        // Add edges\n        const cubeEdges =\n            new THREE.LineSegments(\n                new THREE.EdgesGeometry(\n                cube.geometry\n                ),\n                new THREE.LineBasicMaterial({\n                color:0x000000\n                })\n            )\n        cube.add(cubeEdges)\n\n        // Set position only, not add into scene\n        cube.position.y = 0.5\n\n        // Cylinder: 0.5 = top radius, 0.5 = bottom radius, 2 = height, 32 = number of sides\n        const geometry =\n        new THREE.CylinderGeometry(\n            0.5,\n            0.5,\n            4,\n            32\n        )\n        \n        const material =\n        new THREE.MeshStandardMaterial({\n            color: 0x0300ff\n        })\n        \n        const cylinder =\n        new THREE.Mesh(\n            geometry,\n            material\n        )\n\n        // Add edges\n        const cylEdges =\n            new THREE.LineSegments(\n                new THREE.EdgesGeometry(\n                    cylinder.geometry\n                ),\n                new THREE.LineBasicMaterial({\n                    color:0x000000\n                })\n            )\n        cylinder.add(cylEdges)\n        cylinder.position.y = 0.5\n\n        const groupUnit = new THREE.Group()\n        groupUnit.add(cube)\n        groupUnit.add(cylinder)\n\n        const groupEdges = new THREE.LineSegments( \n            new THREE.EdgesGeometry(\n                groupUnit.geometry\n            ), \n            new THREE.LineBasicMaterial({\n            color:0x000000\n            })\n        )\n        \n        groupUnit.add(\n            groupEdges\n        )\n\n        scene.add(groupUnit)\n        \n        const animate = () => {\n\n            requestAnimationFrame(\n                animate\n            )\n\n            // Group animation\n            groupUnit.rotation.x += 0.01\n            groupUnit.rotation.y += 0.01\n\n            controls.update()\n\n            renderer.render(\n                scene,\n                camera\n            )\n\n        }\n\n        animate()\n\n    }\n\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 150,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "98519b31df50dddd",
+        "type": "ui-group",
+        "name": "Simple Box",
+        "page": "8a35ef95a0d4eadc",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cdfc73d83052bca7",
+        "type": "ui-group",
+        "name": "Cylinder",
+        "page": "8a35ef95a0d4eadc",
+        "width": "12",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "3b87d10a89b4f78d",
+        "type": "ui-group",
+        "name": "3D Orbit",
+        "page": "8a35ef95a0d4eadc",
+        "width": "12",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "fbfca8b8cdd5eb60",
+        "type": "ui-group",
+        "name": "Group Geometry",
+        "page": "8a35ef95a0d4eadc",
+        "width": "12",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cfbf7707e0031465",
+        "type": "ui-group",
+        "name": "Edge",
+        "page": "8a35ef95a0d4eadc",
+        "width": "12",
+        "height": "1",
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "8a35ef95a0d4eadc",
+        "type": "ui-page",
+        "name": "Simple Geometry",
+        "ui": "33ab3c7ff5333228",
+        "path": "/simple_geometry",
+        "icon": "cube",
+        "layout": "grid",
+        "theme": "b19b6ed732206c18",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "33ab3c7ff5333228",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true
+    },
+    {
+        "id": "b19b6ed732206c18",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]
